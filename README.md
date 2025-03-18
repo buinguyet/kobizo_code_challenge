@@ -23,8 +23,8 @@ Kobizo API is a backend service built with NestJS, providing authentication and 
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/yourusername/kobizo.git
-   cd kobizo
+   git clone https://github.com/buinguyet/kobizo_code_challenge.git
+   cd kobizo_code_challenge
    ```
 
 2. **Install dependencies:**
