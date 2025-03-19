@@ -17,7 +17,7 @@ export class AuthService {
     private readonly logger: Logger,
   ) {}
 
-  async register(registerDto: RegisterDto) {
+  async register(registerDto: RegisterDto): Promise<{ message: string }> {
     try {
       // Check if the email already exists
       this.logger.log('Checking if email already exists');
@@ -62,7 +62,13 @@ export class AuthService {
     }
   }
 
-  async login(loginDto: LoginDto) {
+  async login(loginDto: LoginDto): Promise<{
+    access_token: string;
+    refresh_token: string;
+    id: string;
+    email: string;
+    role: string;
+  }> {
     try {
       this.logger.log('Logging in user');
       const { data, error } =

@@ -7,6 +7,8 @@ import {
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { SupabaseService } from '../supabase/supabase.service';
+import { Tables } from '../types/database';
+import { PostgrestSingleResponse } from '@supabase/supabase-js';
 
 @Injectable()
 export class TaskService {
@@ -15,7 +17,9 @@ export class TaskService {
     private logger: Logger,
   ) {}
 
-  async create(createTaskDto: CreateTaskDto) {
+  async create(
+    createTaskDto: CreateTaskDto,
+  ): Promise<PostgrestSingleResponse<Tables<'tasks'>> | null> {
     try {
       this.logger.log(`Creating task ${JSON.stringify(createTaskDto)}`);
       const response = await this.supabaseService.client
@@ -45,7 +49,9 @@ export class TaskService {
     }
   }
 
-  async findAll(userId: string) {
+  async findAll(
+    userId: string,
+  ): Promise<PostgrestSingleResponse<Tables<'tasks'>[]>> {
     try {
       const data = await this.supabaseService.client
         .from('tasks')
@@ -61,7 +67,7 @@ export class TaskService {
     }
   }
 
-  async findOne(id: string, userId: string) {
+  async findOne(id: string, userId: string): Promise<Tables<'tasks'> | null> {
     try {
       const { data, error } = await this.supabaseService.client
         .from('tasks')
@@ -86,7 +92,10 @@ export class TaskService {
     }
   }
 
-  async findSubtasks(id: string, userId: string) {
+  async findSubtasks(
+    id: string,
+    userId: string,
+  ): Promise<PostgrestSingleResponse<Tables<'tasks'>[]>> {
     try {
       const data = await this.supabaseService.client
         .from('tasks')
@@ -103,7 +112,7 @@ export class TaskService {
     }
   }
 
-  async update(id: string, updateTaskDto: UpdateTaskDto) {
+  async update(id: string, updateTaskDto: UpdateTaskDto): Promise<void> {
     try {
       // check if task exists
       this.logger.log(
@@ -140,7 +149,7 @@ export class TaskService {
     }
   }
 
-  async remove(id: string) {
+  async remove(id: string): Promise<void> {
     try {
       // check if task exists
       const { data, error } = await this.supabaseService.client

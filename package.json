@@ -21,7 +21,8 @@
     "supabase:login": "npx supabase login",
     "supabase:link": "dotenv -- cross-var npx supabase link --project-ref %SUPABASE_PROJECT_REF%",
     "supabase:db:push": "npx supabase db push",
-    "supabase:db:new": "npx supabase migration new"
+    "supabase:db:new": "npx supabase migration new",
+    "supabase:gen:types": "bash ./scripts/gen-types.sh"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",

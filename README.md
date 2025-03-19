@@ -14,6 +14,7 @@ Kobizo API is a backend service built with NestJS, providing authentication and 
     - [Run this command to link to your Supabase project:](#run-this-command-to-link-to-your-supabase-project)
     - [Run this command to push your Supabase changes to remote (like migration files):](#run-this-command-to-push-your-supabase-changes-to-remote-like-migration-files)
     - [Run this command to create new migration file (optional if u wanna change table structure):](#run-this-command-to-create-new-migration-file-optional-if-u-wanna-change-table-structure)
+    - [Run this command to generate types of your database](#run-this-command-to-generate-types-of-your-database)
   - [Running the Application](#running-the-application)
   - [API Documentation](#api-documentation)
   - [Testing](#testing)
@@ -72,6 +73,11 @@ Kobizo API is a backend service built with NestJS, providing authentication and 
    ### Run this command to create new migration file (optional if u wanna change table structure):
    ```bash
    npm run supabase:db:new
+   ```
+
+   ### Run this command to generate types of your database
+   ```bash
+   npm run supabase:gen:types
    ```
 
 
