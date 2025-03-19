@@ -9,6 +9,7 @@ import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { SupabaseService } from '../supabase/supabase.service';
 import { UserRole } from '../common/constant';
+import { ExchangeTokenDto } from './dto/exchange-token.dto';
 
 @Injectable()
 export class AuthService {
@@ -98,5 +99,25 @@ export class AuthService {
       this.logger.error(`Error logging in user: ${error}`);
       throw new InternalServerErrorException('Failed to login');
     }
+  }
+
+  async exchangeToken(exchangeTokenDto: ExchangeTokenDto): Promise<{
+    access_token: string;
+    refresh_token: string;
+  }> {
+    const { data, error } =
+      await this.supabaseService.client.auth.refreshSession({
+        refresh_token: exchangeTokenDto.refreshToken,
+      });
+
+    if (error) {
+      this.logger.error(`Error exchanging token: ${error}`);
+      throw new UnauthorizedException('Invalid refresh token');
+    }
+
+    return {
+      access_token: data.session?.access_token,
+      refresh_token: data.session?.refresh_token,
+    };
   }
 }

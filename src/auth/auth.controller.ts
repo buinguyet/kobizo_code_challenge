@@ -10,6 +10,7 @@ import {
   ApiBearerAuth,
 } from '@nestjs/swagger';
 import { UserProfileDto } from './dto/user-profile.dto';
+import { ExchangeTokenDto } from './dto/exchange-token.dto';
 
 @ApiTags('Authentication')
 @Controller('api/v1/auth')
@@ -72,5 +73,18 @@ export class AuthController {
   @ApiResponse({ status: 500, description: 'Internal server error' })
   async getProfile(@Req() req: Request) {
     return (req as any).user;
+  }
+
+  @Post('exchangeToken')
+  @ApiOperation({
+    summary: 'Refresh token',
+    description:
+      'This endpoint is used for refreshing the token, it will return a new access token and refresh token. Normally, Frontend should save the refresh token in the local storage and use this endpoint to refresh the token when the access token is expired.',
+  })
+  @ApiResponse({ status: 200, description: 'Token refreshed successfully' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 500, description: 'Internal server error' })
+  async exchangeToken(@Body() exchangeTokenDto: ExchangeTokenDto) {
+    return this.authService.exchangeToken(exchangeTokenDto);
   }
 }
