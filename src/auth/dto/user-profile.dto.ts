@@ -20,10 +20,4 @@ export class UserProfileDto {
     enum: UserRole,
   })
   role: string;
-
-  @ApiProperty({
-    description: 'Date when the user was created',
-    example: '2024-03-07T12:00:00Z',
-  })
-  created_at: Date;
 }

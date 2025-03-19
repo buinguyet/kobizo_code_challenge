@@ -2,6 +2,8 @@
 
 Kobizo API is a backend service built with NestJS, providing authentication and task management functionalities using Supabase.
 
+*Note: Email Confirmation part is not perfect (but still working) because I did not implement the FE and email template for this. You just need to click the confirmation link from Supabase email => then your email will be confirmed.*
+
 ## Table of Contents
 
 - [Kobizo API](#kobizo-api)
@@ -87,6 +89,13 @@ Kobizo API is a backend service built with NestJS, providing authentication and 
 
 ## API Documentation
 Swagger documentation is available at `http://localhost:9999/api`.
+
+Please use this credentials as admin access:
+   ```bash
+   Email: lenakobizo@gmail.com
+   Password: StrongP@ss123
+   ```
+For normal user account, please use register API to register a new user.
 
 ![Alt Text](./assets/swagger.png)
 

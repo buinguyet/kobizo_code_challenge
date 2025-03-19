@@ -67,7 +67,8 @@ export class TaskService {
         .from('tasks')
         .select('*')
         .eq('id', id)
-        .eq('user_id', userId);
+        .eq('user_id', userId)
+        .maybeSingle();
 
       this.logger.log(`Task found ${JSON.stringify(data)}`);
       if (error || !data) {

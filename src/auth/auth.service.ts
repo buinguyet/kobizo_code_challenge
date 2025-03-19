@@ -27,6 +27,7 @@ export class AuthService {
           .select('id, email')
           .eq('email', registerDto.email.toLowerCase())
           .maybeSingle();
+      this.logger.log(`Existing user: ${existingUser}`);
 
       if (existingUser || existingUserError) {
         this.logger.log(`Email already exists: ${existingUser}`);
