@@ -9,6 +9,8 @@ import { UpdateTaskDto } from './dto/update-task.dto';
 import { SupabaseService } from '../supabase/supabase.service';
 import { Tables } from '../types/database';
 import { PostgrestSingleResponse } from '@supabase/supabase-js';
+import { LIMIT } from '../common/constant';
+import { GetTasksQueryDto } from './dto/get-tasks-query.dto';
 
 @Injectable()
 export class TaskService {
@@ -51,14 +53,21 @@ export class TaskService {
 
   async findAll(
     userId: string,
+    query: GetTasksQueryDto,
   ): Promise<PostgrestSingleResponse<Tables<'tasks'>[]>> {
     try {
+      const { limit = LIMIT, page = 1 } = query;
+      const offset = (page - 1) * limit;
+
       const data = await this.supabaseService.client
         .from('tasks')
         .select('*')
-        .eq('user_id', userId);
+        .eq('user_id', userId)
+        .range(offset, offset + limit - 1);
 
-      this.logger.log(`Tasks found ${JSON.stringify(data)}`);
+      this.logger.log(
+        `Tasks found with params: ${JSON.stringify(query)} and data: ${JSON.stringify(data)}`,
+      );
 
       return data;
     } catch (error) {

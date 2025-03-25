@@ -9,6 +9,7 @@ import {
   Req,
   HttpCode,
   Put,
+  Query,
 } from '@nestjs/common';
 import { TaskService } from './task.service';
 import { CreateTaskDto } from './dto/create-task.dto';
@@ -24,6 +25,7 @@ import { RolesGuard } from '../auth-helper/roles.guard';
 import { Roles } from '../auth-helper/roles.decorator';
 import { UserRole } from '../common/constant';
 import { TaskResponseDto } from './dto/task-response.dto';
+import { GetTasksQueryDto } from './dto/get-tasks-query.dto';
 
 @ApiTags('Task')
 @Controller('api/v1/tasks')
@@ -60,8 +62,11 @@ export class TaskController {
   })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 500, description: 'Internal Server Error' })
-  findAll(@Req() req: Request & { user: any }) {
-    return this.taskService.findAll(req.user.id);
+  findAll(
+    @Req() req: Request & { user: any },
+    @Query() query: GetTasksQueryDto,
+  ) {
+    return this.taskService.findAll(req.user.id, query);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)

@@ -12,33 +12,77 @@ The script performs the following actions:
 - Creates triggers: handle_updated_at, on_auth_user_created, on_auth_user_updated
 - Grants permissions to roles: postgres, anon, authenticated, service_role
 */
+-- Removes any time limit for SQL statements to complete execution
+-- Useful for long-running migrations that might otherwise time out
 SET statement_timeout = 0;
+
+-- Disables the timeout for acquiring locks
+-- Prevents migrations from failing if they need to wait for locks on tables
 SET lock_timeout = 0;
+
+-- Removes the timeout for idle transactions
+-- Ensures migrations don't get automatically terminated if they pause
 SET idle_in_transaction_session_timeout = 0;
+
+-- Sets the character encoding to UTF8
+-- Ensures proper handling of international characters and symbols
 SET client_encoding = 'UTF8';
+
+-- Treats backslash characters in strings literally rather than as escape characters
+-- Makes string handling more predictable and SQL-standard compliant
 SET standard_conforming_strings = on;
+
+-- Clears the search path for schema objects
+-- Forces fully qualified names for all database objects, preventing ambiguity
 SELECT pg_catalog.set_config('search_path', '', false);
+
+-- Disables validation of function bodies during migration
+-- Speeds up migrations that create or alter functions
 SET check_function_bodies = false;
+
+-- Sets how XML data should be interpreted
+-- 'content' means XML data is treated as content rather than as documents
 SET xmloption = content;
+
+-- Sets the minimum message level that will be displayed to the client
+-- Only warnings and more severe messages will be shown
 SET client_min_messages = warning;
+
+-- Disables row-level security during migrations
+-- Allows migrations to modify all rows regardless of RLS policies
 SET row_security = off;
+
+-- Sets the default tablespace to the empty string (uses the database's default)
+-- Controls where table data is physically stored
 SET default_tablespace = '';
+
+-- Sets the default storage method for tables to "heap"
+-- "heap" is the standard storage type for PostgreSQL tables which is optimized for read-heavy operations
 SET default_table_access_method = "heap";
 
+-- Extensions
+-- Helps with encryption to protect sensitive data
 CREATE EXTENSION IF NOT EXISTS "pgsodium" WITH SCHEMA "pgsodium";
 
+-- Helps with timestamps to automatically update the updated_at column
 CREATE EXTENSION IF NOT EXISTS "moddatetime" WITH SCHEMA "public";
 
+-- Helps with GraphQL
 CREATE EXTENSION IF NOT EXISTS "pg_graphql" WITH SCHEMA "graphql";
 
+-- Helps with statistics like query performance
 CREATE EXTENSION IF NOT EXISTS "pg_stat_statements" WITH SCHEMA "extensions";
 
+-- Helps with encryption like hashing passwords
 CREATE EXTENSION IF NOT EXISTS "pgcrypto" WITH SCHEMA "extensions";
 
+-- Helps with JWT tokens for authentication
 CREATE EXTENSION IF NOT EXISTS "pgjwt" WITH SCHEMA "extensions";
 
+-- Helps with Vault for secrets management
 CREATE EXTENSION IF NOT EXISTS "supabase_vault" WITH SCHEMA "vault";
 
+-- Helps with UUIDs for unique identifiers
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA "extensions";
 
 ----- DEFINE TABLES -----

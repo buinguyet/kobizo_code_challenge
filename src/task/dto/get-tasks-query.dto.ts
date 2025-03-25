@@ -1,20 +1,21 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsOptional, IsEnum, IsUUID } from 'class-validator';
-import { TaskStatus } from '../../common/constant';
+import { IsOptional, IsNumber } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class GetTasksQueryDto {
   @ApiPropertyOptional({
-    enum: TaskStatus,
-    description: 'Filter tasks by status',
+    description: 'Limit',
   })
-  @IsEnum(TaskStatus)
+  @IsNumber()
   @IsOptional()
-  status?: TaskStatus;
+  @Type(() => Number)
+  limit?: number;
 
   @ApiPropertyOptional({
-    description: 'Filter tasks by parent task ID',
+    description: 'Page',
   })
-  @IsUUID()
+  @IsNumber()
   @IsOptional()
-  parent_id?: string;
+  @Type(() => Number)
+  page?: number;
 }

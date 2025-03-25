@@ -16,3 +16,5 @@ export enum SortOrder {
 
 export const PASSWORD_REGEX =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
+
+export const LIMIT = 10;
